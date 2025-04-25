@@ -23,8 +23,9 @@ router.post('/issue', async (req, res) => {
     cert.validity.notAfter.setFullYear(cert.validity.notBefore.getFullYear() + 1);
 
     cert.setSubject([{ name: 'commonName', value: userId }]);
-    cert.setIssuer(forge.pki.certificateFromPem(caCertPem).subject.attributes);
 
+    // TO DO: FIX CA
+    cert.setIssuer(forge.pki.certificateFromPem(caCertPem).subject.attributes);
     const caKey = forge.pki.privateKeyFromPem(caPrivateKeyPem);
     cert.sign(caKey, forge.md.sha256.create());
 
