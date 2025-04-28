@@ -102,3 +102,10 @@ cert.setExtensions([
 cert.sign(keypair.privateKey, forge.md.sha256.create());
 
 const caCertPem = forge.pki.certificateToPem(cert);
+
+const issuerCert = forge.pki.certificateFromPem(caCertPem);
+const caKey = forge.pki.privateKeyFromPem(caPrivateKeyPem);
+
+// Use to sign another certificate:
+newCert.setIssuer(issuerCert.subject.attributes);
+newCert.sign(caKey, forge.md.sha256.create());
