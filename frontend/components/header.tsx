@@ -16,7 +16,7 @@ export default function Header() {
               alt="Logo DIF Jalisco"
               width={120}
               height={60}
-              className="object-contain mr-4"
+              className="object-contain mr-4 hidden sm:block"
             />
             <Image
               src="/ITESM_logo.svg?height=60&width=120"
@@ -29,7 +29,7 @@ export default function Header() {
         </div>
       </div>
 
-      <nav className="bg-dif-gray text-white w-full h-16 flex items-center shadow-md">
+      <nav className="bg-dif-gray text-white w-full h-32 md:h-16 flex items-center shadow-md">
         <div className="container mx-auto px-4 flex flex-wrap justify-center items-center">
           <div className="flex items-center space-x-6">
             <Link href="/" className="font-medium hover:text-dif-orange transition-colors">
@@ -57,10 +57,6 @@ export default function Header() {
 
             <Link href="/about" className="font-medium hover:text-dif-orange transition-colors py-4 px-3">
               Acerca de
-            </Link>
-
-            <Link href="/contact" className="font-medium hover:text-dif-orange transition-colors py-4">
-              Contacto
             </Link>
           </div>
 

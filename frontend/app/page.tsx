@@ -31,7 +31,7 @@ export default function Home() {
           </div>
         </div>
         <div className="flex-1 flex justify-center">
-          <div className="relative w-full max-w-md h-80">
+            <div className="relative w-full max-w-md h-80 hidden md:block">
             <Image
               src="/firma_img.png?height=320&width=400"
               alt="Ilustración de firma electrónica"
@@ -45,7 +45,7 @@ export default function Home() {
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
         <Card className="border-dif-orange/20">
           <CardHeader>
-            <CardTitle className="text-dif-orange">Autenticación Segura</CardTitle>
+            <CardTitle className="text-dif-orange">Autenticación segura</CardTitle>
             <CardDescription>Acceso seguro para funcionarios públicos</CardDescription>
           </CardHeader>
           <CardContent>
@@ -56,7 +56,7 @@ export default function Home() {
         </Card>
         <Card className="border-dif-pink/20">
           <CardHeader>
-            <CardTitle className="text-dif-pink">Firma de Documentos</CardTitle>
+            <CardTitle className="text-dif-pink">Firma de documentos</CardTitle>
             <CardDescription>Firma electrónica de documentos oficiales</CardDescription>
           </CardHeader>
           <CardContent>
@@ -65,8 +65,8 @@ export default function Home() {
         </Card>
         <Card className="border-dif-gray/20">
           <CardHeader>
-            <CardTitle className="text-dif-gray">Verificación de Certificados</CardTitle>
-            <CardDescription>Validación de autenticidad de documentos</CardDescription>
+            <CardTitle className="text-dif-gray">Verificación de firmas</CardTitle>
+            <CardDescription>Validación de autenticidad de firmas</CardDescription>
           </CardHeader>
           <CardContent>
             <p>Verifique la autenticidad de documentos firmados electrónicamente por funcionarios del DIF Jalisco.</p>

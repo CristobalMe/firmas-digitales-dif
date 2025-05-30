@@ -50,11 +50,6 @@ export default function Footer() {
                   Acerca de
                 </Link>
               </li>
-              <li>
-                <Link href="/contact" className="text-gray-300 hover:text-dif-orange">
-                  Contacto
-                </Link>
-              </li>
             </ul>
           </div>
 
