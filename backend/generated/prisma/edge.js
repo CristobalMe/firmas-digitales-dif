@@ -146,7 +146,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/cristobal/repos/firmas-digitales-dif/backend/generated/prisma",
+      "value": "D:\\repos\\firmas-digitales-dif\\backend\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -155,12 +155,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
+        "value": "windows",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/cristobal/repos/firmas-digitales-dif/backend/prisma/schema.prisma",
+    "sourceFilePath": "D:\\repos\\firmas-digitales-dif\\backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -178,7 +178,7 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://postgres:postgres@db:5432/difsignatures"
+        "value": "postgresql://postgres:postgres@localhost:5432/difsignatures?schema=public"
       }
     }
   },
