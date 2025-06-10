@@ -61,7 +61,7 @@ export default function Header() {
                         }}
                       >
                         <LogOut className="h-4 w-4 mr-2 inline-block" />
-                        <p className="inline-block">Logout</p>
+                        <p className="inline-block">Cerrar sesion</p>
                     </button>
                   </div>
                 )}
