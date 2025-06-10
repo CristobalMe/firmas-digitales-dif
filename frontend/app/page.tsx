@@ -1,9 +1,15 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 import Image from "next/image"
+import { useUser } from "@/context/userContext"
 
 export default function Home() {
+  const { user } = useUser();
+  const isAuthenticated = user !== null && user !== undefined;
+
   return (
     <div className="container mx-auto px-4 py-12">
       <section className="flex flex-col md:flex-row items-center gap-8 mb-16">
@@ -15,16 +21,20 @@ export default function Home() {
             Plataforma segura para la gestión de firmas electrónicas de funcionarios públicos del DIF Jalisco
           </p>
           <div className="flex flex-wrap gap-4">
-            <Link href="/auth/login">
-              <Button className="bg-dif-orange hover:bg-dif-orange/90 text-white">Iniciar Sesión</Button>
-            </Link>
-            <Link href="/auth/register">
-              <Button variant="outline" className="border-dif-orange text-dif-orange hover:bg-dif-orange/10">
-                Registrarse
-              </Button>
-            </Link>
+            {!isAuthenticated && (
+              <>
+                <Link href="/auth/login">
+                  <Button className="bg-dif-orange hover:bg-dif-orange/90 text-white">Iniciar Sesión</Button>
+                </Link>
+                <Link href="/auth/register">
+                  <Button variant="outline" className="border-dif-orange text-dif-orange hover:bg-dif-orange/10">
+                    Registrarse
+                  </Button>
+                </Link>
+              </>
+            )}
             <Link href="/verify">
-              <Button variant="ghost" className="text-dif-gray hover:bg-dif-gray/10">
+              <Button variant="ghost" className="text-dif-gray hover:bg-dif-gray/10 border-black border-2">
                 Verificar Firma
               </Button>
             </Link>

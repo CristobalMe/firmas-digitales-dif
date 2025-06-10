@@ -33,7 +33,7 @@ router.post('/register', async (req, res) => {
       },
     });
 
-    res.json({ message: 'User registered successfully' });
+    res.json({ user: { id: user.id, email: user.email, name:user.name } });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
@@ -51,7 +51,7 @@ router.post('/login', async (req, res) => {
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return res.status(400).json({ error: 'Invalid credentials' });
 
-    res.json({ message: 'Login successful', user: { id: user.id, email: user.email } });
+    res.json({ user: { id: user.id, email: user.email,  name:user.name } });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });

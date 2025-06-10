@@ -1,10 +1,25 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { ChevronDown } from "lucide-react"
+import { useUser, deleteUserCookie } from "@/context/userContext";
+import { useState } from "react"
+import { LogOut } from "lucide-react"
 
 export default function Header() {
+  const { user } = useUser();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+
+  const handleLogout = () => {
+    deleteUserCookie();
+    window.location.href = "/auth/login"; // Redirect to login page after logout
+  };
+
+  const isAuthenticated = user !== null && user !== undefined;
+
   return (
     <header className="w-full">
       <div className="bg-dif-orange w-full h-35 relative">
@@ -32,6 +47,27 @@ export default function Header() {
       <nav className="bg-dif-gray text-white w-full h-32 md:h-16 flex items-center shadow-md">
         <div className="container mx-auto px-4 flex flex-wrap justify-center items-center">
           <div className="flex items-center space-x-6">
+            { isAuthenticated &&
+              <div className="relative">
+                <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                  <img src={'/place_holder_user.jpg'} alt="User Avatar" className="rounded-full h-9 w-9" />
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-gray-50 rounded-md shadow-lg z-10 border border-gray-200 hover:border-none">
+                    <button
+                      className="block px-4 py-2 text-sm text-red-600 hover:rounded-md w-full text-left hover:border-2 hover:border-solid hover:border-red-600"
+                      onClick={() => {
+                        handleLogout();
+                        }}
+                      >
+                        <LogOut className="h-4 w-4 mr-2 inline-block" />
+                        <p className="inline-block">Logout</p>
+                    </button>
+                  </div>
+                )}
+          </div>
+          }
+
             <Link href="/" className="font-medium hover:text-dif-orange transition-colors">
               Inicio
             </Link>
@@ -46,9 +82,9 @@ export default function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start">
-                <DropdownMenuItem asChild>
+                {isAuthenticated && <DropdownMenuItem asChild>
                   <Link href="/dashboard">Panel de Control</Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem>}
                 <DropdownMenuItem asChild>
                   <Link href="/verify">Verificar Firmas</Link>
                 </DropdownMenuItem>
@@ -60,7 +96,7 @@ export default function Header() {
             </Link>
           </div>
 
-          <div className="flex items-center space-x-4 px-4">
+          {!isAuthenticated && <div className="flex items-center space-x-4 px-4">
             <Link href="/auth/login">
                 <Button variant="ghost" className="text-white hover:text-dif-orange hover:bg-transparent border-2 border-white hover:border-dif-orange">
                   Iniciar Sesión
@@ -69,7 +105,8 @@ export default function Header() {
             <Link href="/auth/register">
               <Button className="bg-dif-orange hover:bg-dif-orange/90 text-white">Registrarse</Button>
             </Link>
-          </div>
+          </div>}
+          
         </div>
       </nav>
     </header>

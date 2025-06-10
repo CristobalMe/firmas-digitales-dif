@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useUser } from "@/context/userContext"
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -18,10 +18,12 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
   })
+  const { user } = useUser();
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
-  const router = useRouter()
   const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4000"
+  const isAuthenticated = user !== null && user !== undefined;
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -61,12 +63,15 @@ export default function RegisterPage() {
         throw new Error(data.message || "Error al registrar usuario")
       }
 
+      document.cookie = `user=${encodeURIComponent(JSON.stringify(data))}; path=/; max-age=3600`;
+
       toast({
         title: "Registro exitoso",
         description: "Su cuenta ha sido creada correctamente",
       })
 
-      router.push("/auth/login")
+      window.location.href = "/dashboard";
+
     } catch (error) {
       toast({
         title: "Error",
@@ -80,6 +85,13 @@ export default function RegisterPage() {
 
   return (
     <div className="container mx-auto flex items-center justify-center min-h-[calc(100vh-200px)] px-4">
+      {isAuthenticated && (
+        <div className="text-center mb-8">
+          <p className="text-red-500">Ya está autenticado. Por favor, dirijase al panel de control :c.</p>
+          <Link href="/dashboard" className="text-blue-500 hover:underline">Ir al Panel de Control</Link>
+        </div>
+      )}
+      {!isAuthenticated && (
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Registro de Usuario</CardTitle>
@@ -146,6 +158,7 @@ export default function RegisterPage() {
           </div>
         </CardFooter>
       </Card>
+      )}
     </div>
   )
 }

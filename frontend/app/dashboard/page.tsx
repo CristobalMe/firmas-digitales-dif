@@ -5,14 +5,27 @@ import { FileSignature, FileCheck, History } from "lucide-react"
 import SignDocumentForm from "@/components/sign-document-form"
 import VerifySignatureForm from "@/components/verify-signature-form"
 import SignatureHistory from "@/components/signature-history"
+import { useUser } from "@/context/userContext"
+
 
 export default function DashboardPage() {
+  const { user } = useUser();
+  const isAuthenticated = user !== null && user !== undefined;
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Panel de Control</h1>
+      {!isAuthenticated && (
+        <div className="text-center mb-8">
+          <p className="text-red-500">Por favor, inicie sesión para acceder al panel de control.</p>
+          <a href="/auth/login" className="text-blue-500 hover:underline">Iniciar Sesión</a>
+        </div>
+      )}
+      {isAuthenticated && (
+        <>
+          <h1 className="text-3xl font-bold mb-8">Panel de Control</h1>
 
-      <Tabs defaultValue="sign" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+          <Tabs defaultValue="sign" className="w-full">
+            <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="sign" className="flex items-center gap-2">
             <FileSignature className="h-4 w-4" />
             <span>Firmar Documento</span>
@@ -62,7 +75,9 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </TabsContent>
-      </Tabs>
+          </Tabs>
+        </>
+      )}
     </div>
   )
 }

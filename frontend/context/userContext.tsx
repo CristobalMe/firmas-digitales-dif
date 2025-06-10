@@ -6,7 +6,6 @@ interface User {
   id: any;
   name: string;
   email: string;
-  role: string;
 }
 
 interface UserContextType {
@@ -64,3 +63,8 @@ export const useUser = () => {
   }
   return context;
 };
+
+export const deleteUserCookie = () => {
+  document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  window.location.reload();
+}
