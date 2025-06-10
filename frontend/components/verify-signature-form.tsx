@@ -17,8 +17,9 @@ export default function VerifySignatureForm() {
   const [signature, setSignature] = useState("")
   const [signatureFile, setSignatureFile] = useState<File | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:4000';
   const [verificationResult, setVerificationResult] = useState<{
-    valid: boolean
+    isValid: boolean
     message: string
     user?: { name: string; email: string }
   } | null>(null)
@@ -70,7 +71,7 @@ export default function VerifySignatureForm() {
         dataToVerify = fileContents
       }
 
-      const response = await fetch("/api/sign/verify", {
+      const response = await fetch(`${BACKEND_URL}/sign/verify`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,15 +89,15 @@ export default function VerifySignatureForm() {
       }
 
       setVerificationResult({
-        valid: result.valid,
+        isValid: result.isValid,
         message: result.message,
         user: result.user,
       })
 
       toast({
-        title: result.valid ? "Verificación exitosa" : "Verificación fallida",
+        title: result.isValid ? "Verificación exitosa" : "Verificación fallida",
         description: result.message,
-        variant: result.valid ? "default" : "destructive",
+        variant: result.isValid ? "default" : "destructive",
       })
     } catch (error) {
       toast({
@@ -158,21 +159,21 @@ export default function VerifySignatureForm() {
 
       {verificationResult && (
         <Alert
-          variant={verificationResult.valid ? "default" : "destructive"}
-          className={verificationResult.valid ? "border-green-500 bg-green-50" : ""}
+          variant={verificationResult.isValid ? "default" : "destructive"}
+          className={verificationResult.isValid ? "border-green-500 bg-green-50" : ""}
         >
           <div className="flex items-start gap-2">
-            {verificationResult.valid ? (
+            {verificationResult.isValid ? (
               <CheckCircle className="h-5 w-5 text-green-500" />
             ) : (
               <XCircle className="h-5 w-5" />
             )}
             <div>
-              <AlertTitle>{verificationResult.valid ? "Firma válida" : "Firma inválida"}</AlertTitle>
+              <AlertTitle>{verificationResult.isValid ? "Firma válida" : "Firma inválida"}</AlertTitle>
               <AlertDescription>
                 {verificationResult.message}
 
-                {verificationResult.valid && verificationResult.user && (
+                {verificationResult.isValid && verificationResult.user && (
                   <div className="mt-2 p-2 bg-white rounded border border-green-200">
                     <p className="font-medium">Firmado por:</p>
                     <p>{verificationResult.user.name}</p>
