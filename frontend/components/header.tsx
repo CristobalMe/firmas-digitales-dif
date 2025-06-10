@@ -48,24 +48,25 @@ export default function Header() {
         <div className="container mx-auto px-4 flex flex-wrap justify-center items-center">
           <div className="flex items-center space-x-6">
             { isAuthenticated &&
-              <div className="relative">
+                <div className="relative">
                 <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                   <img src={'/place_holder_user.jpg'} alt="User Avatar" className="rounded-full h-9 w-9" />
                 </button>
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-gray-50 rounded-md shadow-lg z-10 border border-gray-200 hover:border-none">
-                    <button
-                      className="block px-4 py-2 text-sm text-red-600 hover:rounded-md w-full text-left hover:border-2 hover:border-solid hover:border-red-600"
-                      onClick={() => {
-                        handleLogout();
-                        }}
-                      >
-                        <LogOut className="h-4 w-4 mr-2 inline-block" />
-                        <p className="inline-block">Cerrar sesion</p>
-                    </button>
+                  <button
+                    className="block px-4 py-2 text-sm text-red-600 hover:rounded-md w-full text-left hover:border-2 hover:border-solid hover:border-red-600"
+                    onClick={() => {
+                    handleLogout();
+                    setIsDropdownOpen(false);
+                    }}
+                    >
+                    <LogOut className="h-4 w-4 mr-2 inline-block" />
+                    <p className="inline-block">Cerrar sesion</p>
+                  </button>
                   </div>
                 )}
-          </div>
+              </div>
           }
 
             <Link href="/" className="font-medium hover:text-dif-orange transition-colors">
