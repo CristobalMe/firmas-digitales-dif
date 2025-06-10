@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { FileUp, FileText, Check, Download } from "lucide-react"
+import { useUser } from "@/context/userContext";
 
 export default function SignDocumentForm() {
   const [file, setFile] = useState<File | null>(null)
@@ -16,6 +17,8 @@ export default function SignDocumentForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [signature, setSignature] = useState("")
   const { toast } = useToast()
+  const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:4000';
+  const { user } = useUser();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -50,18 +53,18 @@ export default function SignDocumentForm() {
         dataToSign = fileContents
       }
 
-      const response = await fetch("/api/sign/sign", {
+      const response = await fetch(`${BACKEND_URL}/sign/sign`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ data: dataToSign }),
+        body: JSON.stringify({ userId: user?.id, data: dataToSign }),
       })
 
       const result = await response.json()
 
       if (!response.ok) {
-        throw new Error(result.message || "Error al firmar documento")
+        throw new Error(result.error || "Error al firmar documento")
       }
 
       setSignature(result.signature)
