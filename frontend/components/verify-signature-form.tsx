@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { useToast } from "@/hooks/use-toast"
 import { FileCheck, CheckCircle, XCircle } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function VerifySignatureForm() {
   const [file, setFile] = useState<File | null>(null)
@@ -23,7 +24,6 @@ export default function VerifySignatureForm() {
     message: string
     user?: { name: string; email: string }
   } | null>(null)
-  const { toast } = useToast()
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -48,11 +48,16 @@ export default function VerifySignatureForm() {
     e.preventDefault()
 
     if ((!file && !data) || (!signature && !signatureFile)) {
-      toast({
-        title: "Error",
-        description: "Debe proporcionar datos/archivo y firma para verificar",
-        variant: "destructive",
-      })
+      toast.error("Debe proporcionar datos/archivo y firma para verificar", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       return
     }
 
@@ -94,17 +99,28 @@ export default function VerifySignatureForm() {
         user: result.user,
       })
 
-      toast({
-        title: result.isValid ? "Verificación exitosa" : "Verificación fallida",
-        description: result.message,
-        variant: result.isValid ? "default" : "destructive",
-      })
+      toast(result.isValid ? "Verificación exitosa" : "Verificación fallida", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        type: result.isValid ? "success" : "error",
+      });
     } catch (error) {
-      toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "Ocurrió un error al verificar la firma",
-        variant: "destructive",
-      })
+      toast.error(error instanceof Error ? error.message : "Ocurrió un error al verificar la firma", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } finally {
       setIsLoading(false)
     }
@@ -185,6 +201,7 @@ export default function VerifySignatureForm() {
           </div>
         </Alert>
       )}
+      <ToastContainer />
     </form>
   )
 }

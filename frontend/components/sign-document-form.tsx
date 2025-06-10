@@ -7,16 +7,16 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { useToast } from "@/hooks/use-toast"
 import { FileUp, FileText, Check, Download } from "lucide-react"
 import { useUser } from "@/context/userContext";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SignDocumentForm() {
   const [file, setFile] = useState<File | null>(null)
   const [data, setData] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [signature, setSignature] = useState("")
-  const { toast } = useToast()
   const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:4000';
   const { user } = useUser();
 
@@ -30,11 +30,16 @@ export default function SignDocumentForm() {
     e.preventDefault()
 
     if (!file && !data) {
-      toast({
-        title: "Error",
-        description: "Debe proporcionar un archivo o datos para firmar",
-        variant: "destructive",
-      })
+      toast.error("Debe proporcionar un archivo o datos para firmar", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       return
     }
 
@@ -69,16 +74,27 @@ export default function SignDocumentForm() {
 
       setSignature(result.signature)
 
-      toast({
-        title: "Documento firmado",
-        description: "El documento ha sido firmado exitosamente",
-      })
+      toast.success("Documento firmado", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } catch (error) {
-      toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "Ocurrió un error al firmar el documento",
-        variant: "destructive",
-      })
+      toast.error(error instanceof Error ? error.message : "Ocurrió un error al firmar el documento", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } finally {
       setIsLoading(false)
     }
@@ -149,10 +165,16 @@ export default function SignDocumentForm() {
               className="w-full border-dif-orange text-dif-orange hover:bg-dif-orange/10"
               onClick={() => {
               navigator.clipboard.writeText(signature)
-              toast({
-                title: "Copiado",
-                description: "Firma copiada al portapapeles",
-              })
+              toast.success("Firma copiada al portapapeles", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
               }}
             >
               Copiar Firma
@@ -169,6 +191,7 @@ export default function SignDocumentForm() {
             </div>
         </div>
       )}
+      <ToastContainer />
     </form>
   )
 }
