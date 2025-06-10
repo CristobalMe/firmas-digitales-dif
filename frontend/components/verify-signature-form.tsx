@@ -15,6 +15,7 @@ export default function VerifySignatureForm() {
   const [file, setFile] = useState<File | null>(null)
   const [data, setData] = useState("")
   const [signature, setSignature] = useState("")
+  const [signatureFile, setSignatureFile] = useState<File | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [verificationResult, setVerificationResult] = useState<{
     valid: boolean
@@ -29,10 +30,23 @@ export default function VerifySignatureForm() {
     }
   }
 
+  const handleSignatureFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setSignatureFile(file);
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setSignature(event.target?.result as string);
+      };
+      reader.readAsText(file);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if ((!file && !data) || !signature) {
+    if ((!file && !data) || (!signature && !signatureFile)) {
       toast({
         title: "Error",
         description: "Debe proporcionar datos/archivo y firma para verificar",
@@ -117,6 +131,7 @@ export default function VerifySignatureForm() {
 
       <div className="space-y-2">
         <Label htmlFor="signature">Firma Digital</Label>
+        <Input id="signature-file" type="file" accept=".sig" onChange={handleSignatureFileChange} className="flex-1" />
         <Textarea
           id="signature"
           placeholder="Ingrese la firma digital para verificar"
