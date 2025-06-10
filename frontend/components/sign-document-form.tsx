@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
-import { FileUp, FileText, Check } from "lucide-react"
+import { FileUp, FileText, Check, Download } from "lucide-react"
 
 export default function SignDocumentForm() {
   const [file, setFile] = useState<File | null>(null)
@@ -81,6 +81,15 @@ export default function SignDocumentForm() {
     }
   }
 
+  const downloadSignature = () => {
+    const element = document.createElement("a");
+    const file = new Blob([signature], {type: 'text/plain'});
+    element.href = URL.createObjectURL(file);
+    element.download = "signed_document.sig";
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
+  }
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-2">
@@ -144,6 +153,15 @@ export default function SignDocumentForm() {
               }}
             >
               Copiar Firma
+            </Button>
+             <Button
+              type="button"
+              variant="outline"
+              className="w-full border-dif-orange text-dif-orange hover:bg-dif-orange/10 flex items-center justify-center gap-2"
+              onClick={downloadSignature}
+            >
+              <Download className="h-4 w-4" />
+              Descargar Firma
             </Button>
             </div>
         </div>
