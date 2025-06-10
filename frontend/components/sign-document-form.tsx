@@ -84,7 +84,7 @@ export default function SignDocumentForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-2">
-        <Label htmlFor="file">Archivo a firmar (opcional)</Label>
+        <Label htmlFor="file">Archivo a firmar</Label>
         <div className="flex items-center gap-4">
           <Input id="file" type="file" onChange={handleFileChange} className="flex-1" />
           {file && (

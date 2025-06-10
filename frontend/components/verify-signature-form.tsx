@@ -98,7 +98,7 @@ export default function VerifySignatureForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-2">
-        <Label htmlFor="verify-file">Archivo a verificar (opcional)</Label>
+        <Label htmlFor="verify-file">Archivo a verificar</Label>
         <div className="flex items-center gap-4">
           <Input id="verify-file" type="file" onChange={handleFileChange} className="flex-1" />
         </div>
