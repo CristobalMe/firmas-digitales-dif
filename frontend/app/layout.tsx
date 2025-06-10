@@ -11,6 +11,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Sistema de Gestión de Firmas | DIF Jalisco",
   description: "Sistema de gestión de firmas electrónicas para funcionarios públicos de DIF Jalisco",
+  icons: ["/Pufa.webp"],
 }
 
 export default function RootLayout({
