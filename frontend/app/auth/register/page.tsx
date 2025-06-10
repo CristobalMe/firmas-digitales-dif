@@ -21,7 +21,7 @@ export default function RegisterPage() {
   const { user } = useUser();
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
-  const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4000"
+  const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000"
   const isAuthenticated = user !== null && user !== undefined;
 
 
@@ -45,7 +45,7 @@ export default function RegisterPage() {
     setIsLoading(true)
 
     try {
-      const response = await fetch(`${BACKEND_URL}/auth/register`, {
+      const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

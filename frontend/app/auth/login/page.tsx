@@ -22,10 +22,10 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:4000';
+    const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
 
     try {
-      const response = await fetch(`${BACKEND_URL}/auth/login`, {
+      const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -17,7 +17,7 @@ export default function SignDocumentForm() {
   const [data, setData] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [signature, setSignature] = useState("")
-  const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:4000';
+  const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
   const { user } = useUser();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +58,7 @@ export default function SignDocumentForm() {
         dataToSign = fileContents
       }
 
-      const response = await fetch(`${BACKEND_URL}/sign/sign`, {
+      const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/sign/sign`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

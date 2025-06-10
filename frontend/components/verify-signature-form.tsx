@@ -18,7 +18,7 @@ export default function VerifySignatureForm() {
   const [signature, setSignature] = useState("")
   const [signatureFile, setSignatureFile] = useState<File | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:4000';
+  const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
   const [verificationResult, setVerificationResult] = useState<{
     isValid: boolean
     message: string
@@ -76,7 +76,7 @@ export default function VerifySignatureForm() {
         dataToVerify = fileContents
       }
 
-      const response = await fetch(`${BACKEND_URL}/sign/verify`, {
+      const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/sign/verify`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
