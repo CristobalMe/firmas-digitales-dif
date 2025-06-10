@@ -21,12 +21,22 @@ router.post('/sign', async (req, res) => {
 
 router.post('/verify', async (req, res) => {
   try {
-    const { userId, data, signature } = req.body;
-    const key = await prisma.key.findFirst({ where: { userId } });
-    if (!key) return res.status(404).json({ error: 'Key not found' });
+    const { data, signature } = req.body;
+    const keys = await prisma.key.findMany({});
+    let valid_key = null;
 
-    const valid = verifySignature(key.publicKey, Buffer.from(data), signature);
-    res.json({ valid });
+    if (!keys.length) return res.status(404).json({ error: 'Key not found' });
+
+    let valid = false;
+    for (const key of keys) {
+      valid = verifySignature(key.publicKey, Buffer.from(data), signature);
+      if (valid) {
+        valid_key = key;
+        const user = await prisma.user.findFirst({ where: { id: key.userId } });
+        return res.json({ isValid: valid, user: { email: user.email, name:user.name } });
+      }
+    }
+    return res.json({ isValid: false })
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
