@@ -127,24 +127,25 @@ export default function SignDocumentForm() {
             <Check className="h-5 w-5" />
             <h3 className="font-medium">Firma generada exitosamente</h3>
           </div>
-          <div className="space-y-2">
+            <div className="space-y-2">
             <Label htmlFor="signature">Firma Digital</Label>
             <Textarea id="signature" value={signature} readOnly rows={4} className="font-mono text-sm" />
+            <img src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${signature}`} alt="QR Code" />
             <Button
               type="button"
               variant="outline"
               className="w-full border-dif-orange text-dif-orange hover:bg-dif-orange/10"
               onClick={() => {
-                navigator.clipboard.writeText(signature)
-                toast({
-                  title: "Copiado",
-                  description: "Firma copiada al portapapeles",
-                })
+              navigator.clipboard.writeText(signature)
+              toast({
+                title: "Copiado",
+                description: "Firma copiada al portapapeles",
+              })
               }}
             >
               Copiar Firma
             </Button>
-          </div>
+            </div>
         </div>
       )}
     </form>
